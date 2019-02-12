@@ -222,18 +222,24 @@ need for each program. Once we've imported the library, we can ask the library t
 file for us:
 
 ~~~
-numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+numpy.loadtxt(fname='data/03D1a1.csv', delimiter=',', skiprows=1)
 ~~~
 {: .language-python}
 
 ~~~
-array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
-       [ 0.,  1.,  2., ...,  1.,  0.,  1.],
-       [ 0.,  1.,  1., ...,  2.,  1.,  1.],
-       ...,
-       [ 0.,  1.,  1., ...,  1.,  1.,  1.],
-       [ 0.,  0.,  0., ...,  0.,  2.,  0.],
-       [ 0.,  0.,  1., ...,  1.,  1.,  0.]])
+array([[ 5.28805e+04,  1.30350e+01,  5.42460e+00,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan],
+       [ 5.28815e+04,          nan,          nan,  7.02820e+00,
+         9.91050e+00,  1.61570e+01,  1.86290e+01,  2.20860e+01,
+         7.19510e+01],
+         ...,
+       [ 5.30262e+04,          nan,          nan,          nan,
+                 nan,  5.10690e+01,  2.02770e+01,          nan,
+                 nan],
+       [ 5.30263e+04,          nan,          nan,  6.58160e+00,
+         1.16650e+01,          nan,          nan,          nan,
+                 nan]])
 ~~~
 {: .output}
 
@@ -247,13 +253,14 @@ As an example, John Smith is the John that belongs to the Smith family.
 We could use the dot notation to write his name `smith.john`,
 just as `loadtxt` is a function that belongs to the `numpy` library.
 
-`numpy.loadtxt` has two [parameters]({{ page.root }}/reference/#parameter): the name of the file
-we want to read and the [delimiter]({{ page.root }}/reference/#delimiter) that separates values on
-a line. These both need to be character strings (or [strings]({{ page.root }}/reference/#string)
-for short), so we put them in quotes.
+`numpy.loadtxt` has three [parameters]({{ page.root }}/reference/#parameter): the name of the file
+we want to read, the [delimiter]({{ page.root }}/reference/#delimiter) that separates values on
+a line and a statement to skip the first row. The first two need to be character strings 
+(or [strings]({{ page.root }}/reference/#string)
+for short), so we put them in quotes. The last one is an integer and we do not use quotes.
 
 Since we haven't told it to do anything else with the function's output,
-the notebook displays it.
+the terminal/notebook displays it.
 In this case,
 that output is the data we just loaded.
 By default,
@@ -271,7 +278,7 @@ can also assign an array of values to a variable using the same syntax.  Let's r
 `numpy.loadtxt` and save the returned data:
 
 ~~~
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='data/03D1a1.csv', delimiter=',', skiprows=1)
 ~~~
 {: .language-python}
 
@@ -285,13 +292,19 @@ print(data)
 {: .language-python}
 
 ~~~
-[[ 0.  0.  1. ...,  3.  0.  0.]
- [ 0.  1.  2. ...,  1.  0.  1.]
- [ 0.  1.  1. ...,  2.  1.  1.]
- ...,
- [ 0.  1.  1. ...,  1.  1.  1.]
- [ 0.  0.  0. ...,  0.  2.  0.]
- [ 0.  0.  1. ...,  1.  1.  0.]]
+       ([[ 5.28805e+04,  1.30350e+01,  5.42460e+00,          nan,
+                 nan,          nan,          nan,          nan,
+                 nan],
+       [ 5.28815e+04,          nan,          nan,  7.02820e+00,
+         9.91050e+00,  1.61570e+01,  1.86290e+01,  2.20860e+01,
+         7.19510e+01],
+         ...,
+       [ 5.30262e+04,          nan,          nan,          nan,
+                 nan,  5.10690e+01,  2.02770e+01,          nan,
+                 nan],
+       [ 5.30263e+04,          nan,          nan,  6.58160e+00,
+         1.16650e+01,          nan,          nan,          nan,
+                 nan]])
 ~~~
 {: .output}
 
@@ -312,9 +325,9 @@ print(type(data))
 
 The output tells us that `data` currently refers to
 an N-dimensional array, the functionality for which is provided by the NumPy library.
-These data correspond to arthritis patients' inflammation.
-The rows are the individual patients, and the columns
-are their daily inflammation measurements.
+These data correspond to the fluxes of a supernova as a function of time.
+The rows are the days of the observations, and the columns
+the brightness measurements.
 
 > ## Data Type
 >
@@ -347,12 +360,12 @@ print(data.shape)
 {: .language-python}
 
 ~~~
-(60, 40)
+(48, 9)
 ~~~
 {: .output}
 
-The output tells us that the `data` array variable contains 60 rows and 40 columns. When we
-created the variable `data` to store our arthritis data, we didn't just create the array; we also
+The output tells us that the `data` array variable contains 48 rows and 9 columns. When we
+created the variable `data` to store our data, we didn't just create the array; we also
 created information about the array, called [members]({{ page.root }}/reference/#member) or
 attributes. This extra information describes `data` in the same way an adjective describes a noun.
 `data.shape` is an attribute of `data` which describes the dimensions of `data`. We use the same
@@ -370,21 +383,21 @@ print('first value in data:', data[0, 0])
 {: .language-python}
 
 ~~~
-first value in data: 0.0
+first value in data: 52880.5
 ~~~
 {: .output}
 
 ~~~
-print('middle value in data:', data[30, 20])
+print('middle value in data:', data[24,5])
 ~~~
 {: .language-python}
 
 ~~~
-middle value in data: 13.0
+middle value in data: 162.78
 ~~~
 {: .output}
 
-The expression `data[30, 20]` accesses the element at row 30, column 20. While this expression may
+The expression `data[24,5]` accesses the element at row 24, column 5. While this expression may
 not surprise you,
  `data[0, 0]` might.
 Programming languages like Fortran, MATLAB and R start counting at 1
@@ -417,22 +430,26 @@ the index is how many steps we have to take from the start to get the item we wa
 {: .callout}
 
 ## Slicing data
-An index like `[30, 20]` selects a single element of an array,
+An index like `[24,5]` selects a single element of an array,
 but we can select whole sections as well.
 For example,
 we can select the first ten days (columns) of values
 for the first four patients (rows) like this:
 
 ~~~
-print(data[0:4, 0:10])
+print(data[0:4, 0:9])
 ~~~
 {: .language-python}
 
 ~~~
-[[ 0.  0.  1.  3.  1.  2.  4.  7.  8.  3.]
- [ 0.  1.  2.  1.  2.  1.  3.  2.  2.  6.]
- [ 0.  1.  1.  3.  3.  2.  6.  2.  5.  9.]
- [ 0.  0.  2.  0.  4.  2.  2.  1.  6.  7.]]
+[[5.28805e+04, 1.30350e+01, 5.42460e+00,         nan,         nan,
+                nan,         nan,         nan,         nan],
+       [5.28815e+04,         nan,         nan, 7.02820e+00, 9.91050e+00,
+        1.61570e+01, 1.86290e+01, 2.20860e+01, 7.19510e+01],
+       [5.28866e+04,         nan,         nan,         nan,         nan,
+        1.89440e+02, 1.98550e+01,         nan,         nan],
+       [5.29005e+04, 1.42800e+02, 1.49700e+01, 4.57050e+02, 1.69190e+01,
+        6.54020e+02, 2.32020e+01, 5.72040e+02, 8.95940e+01]]
 ~~~
 {: .output}
 
@@ -443,16 +460,21 @@ rule is that the difference between the upper and lower bounds is the number of 
 We don't have to start slices at 0:
 
 ~~~
-print(data[5:10, 0:10])
+print(data[5:10, 0:9])
 ~~~
 {: .language-python}
 
 ~~~
-[[ 0.  0.  1.  2.  2.  4.  2.  1.  6.  4.]
- [ 0.  0.  2.  2.  4.  2.  2.  5.  5.  8.]
- [ 0.  0.  1.  2.  3.  1.  2.  3.  5.  3.]
- [ 0.  0.  0.  3.  1.  5.  6.  5.  5.  8.]
- [ 0.  1.  1.  2.  1.  3.  5.  3.  5.  8.]]
+[[5.29046e+04, 1.14730e+02, 7.55460e+00,         nan,         nan,
+                nan,         nan,         nan,         nan],
+       [5.29085e+04, 8.49230e+01, 7.51630e+00, 3.84570e+02, 1.27970e+01,
+                nan,         nan,         nan,         nan],
+       [5.29086e+04,         nan,         nan,         nan,         nan,
+        6.04660e+02, 2.04640e+01,         nan,         nan],
+       [5.29096e+04,         nan,         nan,         nan,         nan,
+                nan,         nan, 6.69740e+02, 8.09650e+01],
+       [5.29124e+04,         nan,         nan,         nan,         nan,
+        5.70830e+02, 1.95730e+01,         nan,         nan]]
 ~~~
 {: .output}
 
@@ -462,7 +484,7 @@ axis, and if we don't include either (i.e., if we just use ':' on its own), the 
 everything:
 
 ~~~
-small = data[:3, 36:]
+small = data[:3, 7:]
 print('small is:')
 print(small)
 ~~~
@@ -471,9 +493,9 @@ The above example selects rows 0 through 2 and columns 36 through to the end of 
 
 ~~~
 small is:
-[[ 2.  3.  0.  0.]
- [ 1.  1.  0.  1.]
- [ 2.  2.  1.  1.]]
+[[   nan,    nan],
+ [22.086, 71.951],
+ [   nan,    nan]]
 ~~~
 {: .output}
 
@@ -499,13 +521,13 @@ print(doubledata[:3, 36:])
 
 ~~~
 original:
-[[ 2.  3.  0.  0.]
- [ 1.  1.  0.  1.]
- [ 2.  2.  1.  1.]]
+[[   nan,    nan],
+ [22.086, 71.951],
+ [   nan,    nan]]
 doubledata:
-[[ 4.  6.  0.  0.]
- [ 2.  2.  0.  2.]
- [ 4.  4.  2.  2.]]
+[[    nan,     nan],
+ [ 44.172, 143.902],
+ [    nan,     nan]]
 ~~~
 {: .output}
 
@@ -529,9 +551,9 @@ print(tripledata[:3, 36:])
 
 ~~~
 tripledata:
-[[ 6.  9.  0.  0.]
- [ 3.  3.  0.  3.]
- [ 6.  6.  3.  3.]]
+[[    nan,     nan],
+ [ 66.258, 215.853],
+ [    nan,     nan]]
 ~~~
 {: .output}
 
@@ -540,17 +562,30 @@ to do more complex operations, too.  If we want to find the average inflammation
 all days, for example, we can ask NumPy to compute `data`'s mean value:
 
 ~~~
-print(numpy.mean(data))
+print(numpy.mean(data[:,1])))
 ~~~
 {: .language-python}
 
 ~~~
-6.14875
+nan
 ~~~
 {: .output}
 
 `mean` is a [function]({{ page.root }}/reference/#function) that takes
-an array as an [argument]({{ page.root }}/reference/#argument).
+an array as an [argument]({{ page.root }}/reference/#argument). In this case we
+have a lot of NaNs in the column and `mean` cannot calculate a proper value.
+A sister function, `nanmean`, can ignore the NaNs:
+
+~~~
+print(numpy.nanmean(data[:,1])))
+~~~
+{: .language-python}
+
+~~~
+27.096660000000004
+~~~
+{: .output}
+
 
 > ## Not All Functions Have Input
 >
@@ -581,10 +616,10 @@ We'll also use multiple assignment,
 a convenient Python feature that will enable us to do this all in one line.
 
 ~~~
-maxval, minval, stdval = numpy.max(data), numpy.min(data), numpy.std(data)
+maxval, minval, stdval = numpy.nanmax(data[:,1]), numpy.nanmin(data[:,1]), numpy.nanstd(data[:,1])
 
-print('maximum inflammation:', maxval)
-print('minimum inflammation:', minval)
+print('maximum flux:', maxval)
+print('minimum flux:', minval)
 print('standard deviation:', stdval)
 ~~~
 {: .language-python}
@@ -593,9 +628,9 @@ Here we've assigned the return value from `numpy.max(data)` to the variable `max
 from `numpy.min(data)` to `minval`, and so on.
 
 ~~~
-maximum inflammation: 20.0
-minimum inflammation: 0.0
-standard deviation: 4.61383319712
+maximum flux: 142.8
+minimum flux: -28.9
+standard deviation: 53.4821178405979
 ~~~
 {: .output}
 
@@ -618,13 +653,13 @@ One way to do this is to create a new temporary array of the data we want,
 then ask it to do the calculation:
 
 ~~~
-patient_0 = data[0, :] # 0 on the first axis (rows), everything on the second (columns)
-print('maximum inflammation for patient 0:', numpy.max(patient_0))
+Flux_r = data[:, 3] # everything on the first axis (rows), the fourth on the second axis (columns)
+print('maximum flux in g band is:', numpy.nanmax(Flux_r))
 ~~~
 {: .language-python}
 
 ~~~
-maximum inflammation for patient 0: 18.0
+maximum flux in g band is: 457.05
 ~~~
 {: .output}
 
@@ -637,12 +672,12 @@ We don't actually need to store the row in a variable of its own.
 Instead, we can combine the selection and the function call:
 
 ~~~
-print('maximum inflammation for patient 2:', numpy.max(data[2, :]))
+print('maximum flux in i band is:', np.nanmax(data[:,5]))
 ~~~
 {: .language-python}
 
 ~~~
-maximum inflammation for patient 2: 19.0
+maximum flux in i band is: 694.11
 ~~~
 {: .output}
 
