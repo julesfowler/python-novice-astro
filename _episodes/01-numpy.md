@@ -647,8 +647,8 @@ standard deviation: 53.4821178405979
 
 When analyzing data, though,
 we often want to look at variations in statistical values,
-such as the maximum inflammation per patient
-or the average inflammation per day.
+such as the maximum brightness per band or object
+or the average brightness per band.
 One way to do this is to create a new temporary array of the data we want,
 then ask it to do the calculation:
 
@@ -668,7 +668,7 @@ Everything in a line of code following the '#' symbol is a
 Comments allow programmers to leave explanatory notes for other
 programmers or their future selves.
 
-We don't actually need to store the row in a variable of its own.
+We don't actually need to store the column in a variable of its own.
 Instead, we can combine the selection and the function call:
 
 ~~~
@@ -681,8 +681,8 @@ maximum flux in i band is: 694.11
 ~~~
 {: .output}
 
-What if we need the maximum inflammation for each patient over all days (as in the
-next diagram on the left) or the average for each day (as in the
+What if we need the maximum flux for each day in any band (as in the
+next diagram on the left) or the average for band (as in the
 diagram on the right)? As the diagram below shows, we want to perform the
 operation across an axis:
 
@@ -694,19 +694,14 @@ If we ask for the average across axis 0 (rows in our 2D example),
 we get:
 
 ~~~
-print(numpy.mean(data, axis=0))
+print(numpy.nanmean(data, axis=0))
 ~~~
 {: .language-python}
 
 ~~~
-[  0.           0.45         1.11666667   1.75         2.43333333   3.15
-   3.8          3.88333333   5.23333333   5.51666667   5.95         5.9
-   8.35         7.73333333   8.36666667   9.5          9.58333333
-  10.63333333  11.56666667  12.35        13.25        11.96666667
-  11.03333333  10.16666667  10.           8.66666667   9.15         7.25
-   7.33333333   6.58333333   6.06666667   5.95         5.11666667   3.6
-   3.3          3.56666667   2.48333333   1.5          1.13333333
-   0.56666667]
+[5.29537333e+04 2.70966600e+01 8.93325833e+00 8.81428870e+01
+ 1.79726304e+01 2.19487541e+02 2.21493182e+01 2.12659100e+02
+ 8.72582000e+01]
 ~~~
 {: .output}
 
@@ -714,35 +709,41 @@ As a quick check,
 we can ask this array what its shape is:
 
 ~~~
-print(numpy.mean(data, axis=0).shape)
+print(numpy.nanmean(data, axis=0).shape)
 ~~~
 {: .language-python}
 
 ~~~
-(40,)
+(9,)
 ~~~
 {: .output}
 
-The expression `(40,)` tells us we have an N×1 vector,
-so this is the average inflammation per day for all patients.
+The expression `(9,)` tells us we have an N×1 vector,
+so this is the average value for each column.
 If we average across axis 1 (columns in our 2D example), we get:
 
 ~~~
-print(numpy.mean(data, axis=1))
+print(numpy.nanmean(data, axis=1))
 ~~~
 {: .language-python}
 
 ~~~
-[ 5.45   5.425  6.1    5.9    5.55   6.225  5.975  6.65   6.625  6.525
-  6.775  5.8    6.225  5.75   5.225  6.3    6.55   5.7    5.85   6.55
-  5.775  5.825  6.175  6.1    5.8    6.425  6.05   6.025  6.175  6.55
-  6.175  6.35   6.725  6.125  7.075  5.725  5.925  6.15   6.075  5.75
-  5.975  5.725  6.3    5.9    6.75   5.925  7.225  6.15   5.95   6.275  5.7
-  6.1    6.825  5.975  6.725  5.7    6.25   6.4    7.05   5.9  ]
+[ 9.22980000e+00  2.42936167e+01  1.04647500e+02  2.46324375e+02
+  2.81024250e+02  6.11423000e+01  1.22451575e+02  3.12562000e+02
+  3.75352500e+02  2.95201500e+02  1.15507000e+02  2.65575000e+02
+  1.41784500e+02  1.53148000e+02  2.02829000e+01  2.11857250e+01
+  1.24418500e+02  1.40559500e+02  1.84695000e+01  2.03128000e+01
+  1.03193500e+02  2.19719500e+01  2.74837500e+02  8.96285000e+01
+  4.87550300e+01  6.33962500e+01  4.06410000e+01  1.69725000e-01
+  9.37185000e+01  3.22807750e+01  6.46100000e+01  4.53500000e-01
+  8.37650000e+01  4.63065000e+01  3.75445000e+00  2.00239000e+01
+ -1.00273500e+01  2.33642500e+01  9.52407500e+00  3.14025000e-01
+  5.06840000e+01  3.12785000e+01  1.50105000e+01  2.13955000e+01
+  3.79590000e+01  1.18775000e+01  3.56730000e+01  9.12330000e+00]
 ~~~
 {: .output}
 
-which is the average inflammation per patient across all days.
+which is the average flux for each day of observations.
 
 ## Visualizing data
 The mathematician Richard Hamming once said, "The purpose of computing is insight, not numbers," and
@@ -754,12 +755,12 @@ heat map of our data:
 
 ~~~
 import matplotlib.pyplot
-image = matplotlib.pyplot.imshow(data)
+image = matplotlib.pyplot.imshow(data[:,1:])
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Heatmap of the Data](../fig/01-numpy_71_0.png)
+![Heatmap of the Data](../fig/03D1ar.png)
 
 Blue pixels in this heat map represent low values, while yellow pixels represent high values.  As we
 can see, inflammation rises and falls over a 40-day period.
