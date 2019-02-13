@@ -845,11 +845,11 @@ Here are our three plots side by side:
 
 ~~~
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 data = np.loadtxt(fname='data/03D1ar.csv', delimiter=',', skiprows=1)
 
-fig = matplotlib.pyplot.figure(figsize=(15.0, 4.0))
+fig = plt.figure(figsize=(15.0, 4.0))
 
 axes1 = fig.add_subplot(1, 4, 1)
 axes2 = fig.add_subplot(1, 4, 2)
@@ -878,7 +878,7 @@ axes4.plot(mjd, data[:,7],'o', color='red')
 
 fig.tight_layout()
 
-matplotlib.pyplot.show(block=False)
+plt.show(block=False)
 ~~~
 {: .language-python}
 
