@@ -98,31 +98,25 @@ for f in filenames:
 {: .language-python}
 
 ~~~
-data/03D1a1.csv
+data/03D1ar.csv
 ~~~
 {: .output}
 
-![Analysis of data/03D1a1.csv](../fig/03D1a1.png)
+![Analysis of data/03D1ar.csv](../fig/03D1ar.csv)
 
 ~~~
 data/03D1ar.csv
 ~~~
 {: .output}
 
-![Analysis of data/03D1ar.csv](../fig/03D1ar.png)
+![Analysis of data/03D1au.csv](../fig/03D1au.csv)
 
 ~~~
-data/03D1au.csv
+data/03D1aw.csv
 ~~~
 {: .output}
 
-![Analysis of data/03D1au.csv](../fig/03D1au.png)
-
-Sure enough,
-the maxima of the first two data sets show exactly the same ramp as the first,
-and their minima show the same staircase structure;
-a different situation has been revealed in the third dataset,
-where the maxima are a bit less regular, but the minima are consistently zero.
+![Analysis of data/03D1aw.csv](../fig/03D1aw.csv)
 
 > ## Plotting Differences (DO NOT USE)
 >
