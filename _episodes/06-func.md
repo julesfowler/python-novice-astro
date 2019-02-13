@@ -31,7 +31,7 @@ keypoints:
 ---
 
 At this point,
-we've written code to draw some interesting features in our inflammation data,
+we've written code to draw some interesting features in our supernova data,
 loop over all our data files to quickly draw these plots for each of them,
 and have Python make decisions based on what it sees in our data.
 But, our code is getting pretty long and complicated;
@@ -145,31 +145,49 @@ or the next person who reads it won't be able to understand what's going on.
 ## Tidying up
 
 Now that we know how to wrap bits of code up in functions,
-we can make our inflammation analysis easier to read and easier to reuse.
+we can make our supernova analysis easier to read and easier to reuse.
 First, let's make an `analyze` function that generates our plots:
 
 ~~~
-def analyze(filename):
+def make_plot(filename):
 
-    data = numpy.loadtxt(fname=filename, delimiter=',')
+    data = numpy.loadtxt(fname=filename, delimiter=',', skiprows=1)
 
-    fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
+    fig = matplotlib.pyplot.figure(figsize=(15.0, 4.0))
+    
+    axes1 = fig.add_subplot(1, 4, 1)
+    axes2 = fig.add_subplot(1, 4, 2)
+    axes3 = fig.add_subplot(1, 4, 3)
+    axes4 = fig.add_subplot(1, 4, 4)
+    
+    y_min = numpy.nanmin(data[:,[1,3,5,7]])
+    y_max = numpy.nanmax(data[:,[1,3,5,7]])
+    
+    mjd = data[:,0]
 
-    axes1 = fig.add_subplot(1, 3, 1)
-    axes2 = fig.add_subplot(1, 3, 2)
-    axes3 = fig.add_subplot(1, 3, 3)
+    axes1.set_xlabel('MJD')
+    axes1.set_ylabel('g')
+    axes1.set_ylim([y_min, y_max])
+    axes1.plot(mjd,data[:,1],'o', color='blue')
 
-    axes1.set_ylabel('average')
-    axes1.plot(numpy.mean(data, axis=0))
+    axes2.set_xlabel('MJD')
+    axes2.set_ylabel('r')
+    axes2.set_ylim([y_min, y_max])
+    axes2.plot(mjd,data[:,3],'o', color='green')
 
-    axes2.set_ylabel('max')
-    axes2.plot(numpy.max(data, axis=0))
+    axes3.set_xlabel('MJD')
+    axes3.set_ylabel('i')
+    axes3.set_ylim([y_min, y_max])
+    axes3.plot(mjd,data[:,5],'o', color='yellow')
 
-    axes3.set_ylabel('min')
-    axes3.plot(numpy.min(data, axis=0))
+    axes4.set_xlabel('MJD')
+    axes4.set_ylabel('z')
+    axes4.set_ylim([y_min, y_max])
+    axes4.plot(mjd, data[:,7],'o', color='red')
 
-    fig.tight_layout()
-    matplotlib.pyplot.show()
+    #fig.tight_layout()
+    matplotlib.pyplot.show(block=False)
+    matplotlib.pyplot.savefig(f.replace('.csv','.png'))
 ~~~
 {: .language-python}
 
@@ -179,14 +197,15 @@ we noticed:
 ~~~
 def detect_problems(filename):
 
-    data = numpy.loadtxt(fname=filename, delimiter=',')
+    data = numpy.loadtxt(fname=f, delimiter=',', skiprows=1)
 
-    if numpy.max(data, axis=0)[0] == 0 and numpy.max(data, axis=0)[20] == 20:
-        print('Suspicious looking maxima!')
-    elif numpy.sum(numpy.min(data, axis=0)) == 0:
-        print('Minima add up to zero!')
-    else:
-        print('Seems OK!')
+    for i in [1,3,5,7]:
+        if np.nanmin(data[:,i]) < 0.:
+            print(f + ': A negative flux.')
+        elif np.sum(np.isnan(data[:,i])) == data.shape[0]:
+            print(f + ': A NaN column')
+        else:
+            print('Seems OK!')
 ~~~
 {: .language-python}
 
@@ -195,11 +214,11 @@ we can now read and reuse both ideas separately.
 We can reproduce the previous analysis with a much simpler `for` loop:
 
 ~~~
-filenames = sorted(glob.glob('inflammation*.csv'))
+filenames = sorted(glob.glob('data/*.csv'))
 
 for f in filenames[:3]:
     print(f)
-    analyze(f)
+    make_plot(f)
     detect_problems(f)
 ~~~
 {: .language-python}
@@ -219,7 +238,7 @@ shifts to a user-defined value:
 
 ~~~
 def offset_mean(data, target_mean_value):
-    return (data - numpy.mean(data)) + target_mean_value
+    return (data - numpy.nanmean(data)) + target_mean_value
 ~~~
 {: .language-python}
 
@@ -246,7 +265,8 @@ That looks right,
 so let's try `offset_mean` on our real data:
 
 ~~~
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='data/03D1ar.csv', delimiter=',',skiprows=1)
+data=data[:,1:]
 print(offset_mean(data, 0))
 ~~~
 {: .language-python}
@@ -266,35 +286,33 @@ It's hard to tell from the default output whether the result is correct,
 but there are a few simple tests that will reassure us:
 
 ~~~
-print('original min, mean, and max are:', numpy.min(data), numpy.mean(data), numpy.max(data))
+print('original min, mean, and max are:', numpy.nanmin(data), numpy.nanmean(data), numpy.nanmax(data))
 offset_data = offset_mean(data, 0)
 print('min, mean, and max of offset data are:',
-      numpy.min(offset_data),
-      numpy.mean(offset_data),
-      numpy.max(offset_data))
+      numpy.nanmin(offset_data),
+      numpy.nanmean(offset_data),
+      numpy.nanmax(offset_data))
 ~~~
 {: .language-python}
 
 ~~~
-original min, mean, and max are: 0.0 6.14875 20.0
-min, mean, and and max of offset data are: -6.14875 2.84217094304e-16 13.85125
+original min, mean, and max are: -117.01 14027.293405604396 53026.3
+min, mean, and max of offset data are: -14144.303405604396 -2.3986673453351954e-13 38999.00659439561
 ~~~
 {: .output}
 
-That seems almost right:
-the original mean was about 6.1,
-so the lower bound from zero is now about -6.1.
+That seems almost right.
 The mean of the offset data isn't quite zero --- we'll explore why not in the challenges --- but
 it's pretty close.
 We can even go further and check that the standard deviation hasn't changed:
 
 ~~~
-print('std dev before and after:', numpy.std(data), numpy.std(offset_data))
+print('std dev before and after:', numpy.nanstd(data), numpy.nanstd(offset_data))
 ~~~
 {: .language-python}
 
 ~~~
-std dev before and after: 4.61383319712 4.61383319712
+std dev before and after: 23298.068324802825 23298.068324802825
 ~~~
 {: .output}
 
@@ -304,18 +322,17 @@ Let's do this instead:
 
 ~~~
 print('difference in standard deviations before and after:',
-      numpy.std(data) - numpy.std(offset_data))
+      numpy.nanstd(data) - numpy.nanstd(offset_data))
 ~~~
 {: .language-python}
 
 ~~~
-difference in standard deviations before and after: -3.5527136788e-15
+difference in standard deviations before and after: 0.0
 ~~~
 {: .output}
 
 Again,
 the difference is very small.
-It's still possible that our function is wrong,
 but it seems unlikely enough that we should probably get back to doing our analysis.
 We have one more task first, though:
 we should write some [documentation]({{ page.root }}/reference/#documentation) for our function
@@ -394,7 +411,7 @@ In fact,
 we can pass the filename to `loadtxt` without the `fname=`:
 
 ~~~
-numpy.loadtxt('inflammation-01.csv', delimiter=',')
+numpy.loadtxt('data/03D1ar.csv', delimiter=',',skiprows=1)
 ~~~
 {: .language-python}
 
@@ -412,7 +429,7 @@ array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
 but we still need to say `delimiter=`:
 
 ~~~
-numpy.loadtxt('inflammation-01.csv', ',')
+numpy.loadtxt('data/03D1ar.csv', ',',1)
 ~~~
 {: .language-python}
 
@@ -569,7 +586,7 @@ and eight others that do.
 If we call the function like this:
 
 ~~~
-numpy.loadtxt('inflammation-01.csv', ',')
+numpy.loadtxt('data/03D1ar.csv', ',',1)
 ~~~
 {: .language-python}
 
