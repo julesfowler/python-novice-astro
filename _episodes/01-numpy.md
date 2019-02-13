@@ -1,5 +1,5 @@
 ---
-title: Analyzing Patient Data
+title: Analyzing Supernova Data
 teaching: 60
 exercises: 30
 questions:
@@ -29,7 +29,7 @@ keypoints:
 - "Use the `pyplot` library from `matplotlib` for creating simple visualizations."
 ---
 
-In this episode we will learn how to work with arthritis inflammation datasets in Python. However,
+In this episode we will learn how to work with supenovae lightcurve data in Python. However,
 before we discuss how to deal with many data points, let's learn how to work with
 single data values.
 
@@ -760,7 +760,7 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Heatmap of the Data](../fig/03D1ar.png)
+![Heatmap of the Data](../fig/fig_03D1ar.png)
 
 Blue pixels in this heat map represent low values, while yellow pixels represent high values.  As we
 can see, inflammation rises and falls over a 40-day period.
@@ -782,42 +782,53 @@ can see, inflammation rises and falls over a 40-day period.
 > Note that you only have to execute this function once per notebook.
 {: .callout}
 
-Let's take a look at the average inflammation over time:
+Let's take a look at the average flux over time:
 
 ~~~
-ave_inflammation = numpy.mean(data, axis=0)
-ave_plot = matplotlib.pyplot.plot(ave_inflammation)
+ave_flux = numpy.nanmean(data[:,1:], axis=1)
+mjd = data[:,0]
+ave_plot = matplotlib.pyplot.plot(mjd, ave_flux)
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Average Inflammation Over Time](../fig/01-numpy_73_0.png)
+![Average Inflammation Over Time](../fig/mean_03D1ar.png)
 
-Here, we have put the average per day across all patients in the variable `ave_inflammation`, then
-asked `matplotlib.pyplot` to create and display a line graph of those values.  The result is a
-roughly linear rise and fall, which is suspicious: we might instead expect a sharper rise and slower
-fall.  Let's have a look at two other statistics:
+Here, we have put the average flux per day in the variable `ave_flux` and the Modified 
+Julian Date in the variable 'mjd'. Then we
+asked `matplotlib.pyplot` to create and display a line graph of those two variable.  The result is a
+fast rise and slow fall but it is very jagged.  Let's have a look at two other statistics:
 
 ~~~
-max_plot = matplotlib.pyplot.plot(numpy.max(data, axis=0))
+max_plot = matplotlib.pyplot.plot(mjd, numpy.nanmax(data[:,1:], axis=1))
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Maximum Value Along The First Axis](../fig/01-numpy_75_1.png)
+![Maximum Value Along The First Axis](../fig/max_03D1ar.png)
 
 ~~~
-min_plot = matplotlib.pyplot.plot(numpy.min(data, axis=0))
+min_plot = matplotlib.pyplot.plot(mjd,numpy.nanmin(data[:,1:], axis=0))
 matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Minimum Value Along The First Axis](../fig/01-numpy_75_3.png)
+![Minimum Value Along The First Axis](../fig/min_03D1ar.png)
 
-The maximum value rises and falls smoothly, while the minimum seems to be a step function.  Neither
-trend seems particularly likely, so either there's a mistake in our calculations or something is
-wrong with our data.  This insight would have been difficult to reach by examining the numbers
-themselves without visualization tools.
+The maximum value rises and falls, while the minimum seems to be pretty flat. Of course, here we are averaging over 
+several different bands and observations are only available for a subset of the bands for each date. It would be much better to look at the individual lightcurves for each band.
+
+~~~
+matplotlib.pyplot.plot(mjd,data[:,1],'o', color='blue')
+matplotlib.pyplot.plot(mjd,data[:,3],'o', color='green')
+matplotlib.pyplot.plot(mjd,data[:,5],'o', color='yellow')
+matplotlib.pyplot.plot(mjd,data[:,7],'o', color='red')
+matplotlib.pyplot.show()
+~~~
+{: .language-python}
+
+![Light Curves](../fig/lc_03D1ar.png)
+
 
 ### Grouping plots
 You can group similar plots in a single figure using subplots.
@@ -833,33 +844,45 @@ be titled using the `set_xlabel()` command (or `set_ylabel()`).
 Here are our three plots side by side:
 
 ~~~
-import numpy
-import matplotlib.pyplot
+import numpy as np
+from matplotlib import pyplot as plt
 
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = np.loadtxt(fname='data/03D1ar.csv', delimiter=',', skiprows=1)
 
-fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
+fig = matplotlib.pyplot.figure(figsize=(15.0, 4.0))
 
-axes1 = fig.add_subplot(1, 3, 1)
-axes2 = fig.add_subplot(1, 3, 2)
-axes3 = fig.add_subplot(1, 3, 3)
+axes1 = fig.add_subplot(1, 4, 1)
+axes2 = fig.add_subplot(1, 4, 2)
+axes3 = fig.add_subplot(1, 4, 3)
+axes4 = fig.add_subplot(1, 4, 4)
 
-axes1.set_ylabel('average')
-axes1.plot(numpy.mean(data, axis=0))
+axes1.set_xlabel('MJD')
+axes1.set_ylabel('g')
+axes1.set_ylim([-150,720])
+axes1.plot(mjd,data[:,1],'o', color='blue')
 
-axes2.set_ylabel('max')
-axes2.plot(numpy.max(data, axis=0))
+axes2.set_xlabel('MJD')
+axes2.set_ylabel('r')
+axes2.set_ylim([-150,720])
+axes2.plot(mjd,data[:,3],'o', color='green')
 
-axes3.set_ylabel('min')
-axes3.plot(numpy.min(data, axis=0))
+axes3.set_xlabel('MJD')
+axes3.set_ylabel('i')
+axes3.set_ylim([-150,720])
+axes3.plot(mjd,data[:,5],'o', color='yellow')
+
+axes4.set_xlabel('MJD')
+axes4.set_ylabel('z')
+axes4.set_ylim([-150,720])
+axes4.plot(mjd, data[:,7],'o', color='red')
 
 fig.tight_layout()
 
-matplotlib.pyplot.show()
+matplotlib.pyplot.show(block=False)
 ~~~
 {: .language-python}
 
-![The Previous Plots as Subplots](../fig/01-numpy_80_0.png)
+![The Previous Plots as Subplots](../fig/lc_03D1ar_4panel.png)
 
 The [call]({{ page.root }}/reference/#function-call) to `loadtxt` reads our data,
 and the rest of the program tells the plotting library
@@ -1033,55 +1056,14 @@ the graphs will actually be squeezed together more closely.)
 > {: .solution}
 {: .challenge}
 
-> ## Drawing Straight Lines
->
-> In the center and right subplots above, we expect all lines to look like step functions because
-> non-integer value are not realistic for the minimum and maximum values. However, you can see
-> that the lines are not always vertical or horizontal, and in particular the step function
-> in the subplot on the right looks slanted. Why is this?
->
-> > ## Solution
-> > Because matplotlib interpolates (draws a straight line) between the points.
-> > One way to do avoid this is to use the Matplotlib `drawstyle` option:
-> >
-> > ~~~
-> > import numpy
-> > import matplotlib.pyplot
-> >
-> > data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
-> >
-> > fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
-> >
-> > axes1 = fig.add_subplot(1, 3, 1)
-> > axes2 = fig.add_subplot(1, 3, 2)
-> > axes3 = fig.add_subplot(1, 3, 3)
-> >
-> > axes1.set_ylabel('average')
-> > axes1.plot(numpy.mean(data, axis=0), drawstyle='steps-mid')
-> >
-> > axes2.set_ylabel('max')
-> > axes2.plot(numpy.max(data, axis=0), drawstyle='steps-mid')
-> >
-> > axes3.set_ylabel('min')
-> > axes3.plot(numpy.min(data, axis=0), drawstyle='steps-mid')
-> >
-> > fig.tight_layout()
-> >
-> > matplotlib.pyplot.show()
-> > ~~~
-> > {: .language-python}
-> ![Plot with step lines](../fig/01-numpy_exercise_0.png)
-> {: .solution}
-{: .challenge}
-
 > ## Make Your Own Plot
 >
 > Create a plot showing the standard deviation (`numpy.std`)
-> of the inflammation data for each day across all patients.
+> of the flux for each day of observations.
 >
 > > ## Solution
 > > ~~~
-> > std_plot = matplotlib.pyplot.plot(numpy.std(data, axis=0))
+> > std_plot = matplotlib.pyplot.plot(numpy.nanstd(data[:,1:], axis=0))
 > > matplotlib.pyplot.show()
 > > ~~~
 > > {: .language-python}
@@ -1093,12 +1075,12 @@ the graphs will actually be squeezed together more closely.)
 > Modify the program to display the three plots on top of one another
 > instead of side by side.
 >
-> > ## Solution
+> > ## Solution (NOT CORRECT)
 > > ~~~
 > > import numpy
 > > import matplotlib.pyplot
 > >
-> > data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+> > data = numpy.loadtxt(fname='data/03D1ar.csv', delimiter=',')
 > >
 > > # change figsize (swap width and height)
 > > fig = matplotlib.pyplot.figure(figsize=(3.0, 10.0))
@@ -1217,7 +1199,7 @@ the graphs will actually be squeezed together more closely.)
 > {: .solution}
 {: .challenge}
 
-> ## Change In Inflammation
+> ## Change In Inflammation (NOT CORRECT)
 >
 > This patient data is _longitudinal_ in the sense that each row represents a
 > series of observations relating to one individual.  This means that
