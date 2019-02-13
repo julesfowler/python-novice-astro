@@ -183,7 +183,7 @@ data = numpy.loadtxt(fname='data/03D3af.csv', delimiter=',', skiprows=1)
 
 if np.nanmin(data[:,1]) < 0.:
     print(f + ': a negative flux')
-if np.sum(np.isnan(data[:,1])) == data.shape[0]:
+elif np.sum(np.isnan(data[:,1])) == data.shape[0]:
     print(f + ': a NaN column')
 else:
     print('Seems OK!')
@@ -200,7 +200,7 @@ data = numpy.loadtxt(fname='data/03D1ar.csv', delimiter=',')
 
 if np.nanmin(data[:,1]) < 0.:
     print(f + ': a negative flux')
-if np.sum(np.isnan(data[:,1])) == data.shape[0]:
+elif np.sum(np.isnan(data[:,1])) == data.shape[0]:
     print(f + ': a NaN column')
 else:
     print('Seems OK!')
