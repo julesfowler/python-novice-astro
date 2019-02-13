@@ -16,13 +16,13 @@ keypoints:
 ---
 
 In the last episode,
-we wrote some code that plots some values of interest from our first inflammation dataset,
-and reveals some suspicious features in it, such as from `inflammation-01.csv`
+we wrote some code that plots some values of interest from our first supernova dataset,
+from `03D1a1.csv`
 
-![Analysis of inflammation-01.csv](../fig/03-loop_2_0.png)
+![Analysis of 03D1a1.csv](../fig/lc_03D1ar_4panel.png)
 
-We have a dozen data sets right now, though, and more on the way.
-We want to create plots for all of our data sets with a single statement.
+We have a ~230 data sets right now and
+we want to create plots for all of our data sets with a single statement.
 To do that, we'll have to teach the computer how to repeat things.
 
 An example task that we might want to repeat is printing each character in a
