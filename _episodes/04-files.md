@@ -105,7 +105,7 @@ data/03D1ar.csv
 ![Analysis of data/03D1ar.csv](../fig/03D1ar.csv)
 
 ~~~
-data/03D1ar.csv
+data/03D1au.csv
 ~~~
 {: .output}
 
