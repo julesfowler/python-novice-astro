@@ -102,21 +102,21 @@ data/03D1ar.csv
 ~~~
 {: .output}
 
-![Analysis of data/03D1ar.csv](../fig/03D1ar.csv)
+![Analysis of data/03D1ar.csv](../fig/03D1ar.png)
 
 ~~~
 data/03D1au.csv
 ~~~
 {: .output}
 
-![Analysis of data/03D1au.csv](../fig/03D1au.csv)
+![Analysis of data/03D1au.csv](../fig/03D1au.png)
 
 ~~~
 data/03D1aw.csv
 ~~~
 {: .output}
 
-![Analysis of data/03D1aw.csv](../fig/03D1aw.csv)
+![Analysis of data/03D1aw.csv](../fig/03D1aw.png)
 
 > ## Plotting Differences (DO NOT USE)
 >
