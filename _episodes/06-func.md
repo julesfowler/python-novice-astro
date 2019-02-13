@@ -187,7 +187,7 @@ def make_plot(filename):
 
     #fig.tight_layout()
     matplotlib.pyplot.show(block=False)
-    matplotlib.pyplot.savefig(f.replace('.csv','.png'))
+    matplotlib.pyplot.savefig(filename.replace('.csv','.png'))
 ~~~
 {: .language-python}
 
