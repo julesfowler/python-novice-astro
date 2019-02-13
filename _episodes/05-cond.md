@@ -19,8 +19,9 @@ keypoints:
 - "`True` and `False` represent truth values."
 ---
 
-In our last lesson, we discovered something suspicious was going on
-in our inflammation data by drawing some plots.
+One thing we noticed in some of the light curves was that there were negative flux values. 
+Another major issue for this dataset is missing measurements. Are there objects that are
+completely missing observations in a given filter?
 How can we use Python to automatically recognize the different features we saw,
 and take a different action for each? In this lesson, we'll learn how to write code that
 runs only when certain conditions are true.
@@ -146,30 +147,23 @@ import numpy
 ~~~
 {: .language-python}
 
-From the first couple of plots, we saw that maximum daily inflammation exhibits
-a strange behavior and raises one unit a day.
-Wouldn't it be a good idea to detect such behavior and report it as suspicious?
+In some of the plots we saw negative fluxes. Let's flag the objects and the filters in which
+these occur.
 Let's do that!
-However, instead of checking every single day of the study, let's merely check
-if maximum inflammation in the beginning (day 0) and in the middle (day 20) of
-the study are equal to the corresponding day numbers.
+However, instead of checking every single value, we can check the all columns at once:
 
 ~~~
-max_inflammation_0 = numpy.max(data, axis=0)[0]
-max_inflammation_20 = numpy.max(data, axis=0)[20]
-
-if max_inflammation_0 == 0 and max_inflammation_20 == 20:
-    print('Suspicious looking maxima!')
+if np.nanmin(data[:,1]) < 0:
+    print('Negative fluxes!')
 ~~~
 {: .language-python}
 
-We also saw a different problem in the third dataset;
-the minima per day were all zero (looks like a healthy person snuck into our study).
+We also saw a lot of NaNs.
 We can also check for this with an `elif` condition:
 
 ~~~
-elif numpy.sum(numpy.min(data, axis=0)) == 0:
-    print('Minima add up to zero!')
+elif np.sum(np.isnan(data[:,1])) == data.shape[0]:
+    print(f + ': A NaN column')
 ~~~
 {: .language-python}
 
@@ -177,49 +171,44 @@ And if neither of these conditions are true, we can use `else` to give the all-c
 
 ~~~
 else:
-    print('Seems OK!')
+    print(f+': Seems OK!')
 ~~~
 {: .language-python}
 
 Let's test that out:
 
 ~~~
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = numpy.loadtxt(fname='data/03D3af.csv', delimiter=',', skiprows=1)
 
-max_inflammation_0 = numpy.max(data, axis=0)[0]
-max_inflammation_20 = numpy.max(data, axis=0)[20]
 
-if max_inflammation_0 == 0 and max_inflammation_20 == 20:
-    print('Suspicious looking maxima!')
-elif numpy.sum(numpy.min(data, axis=0)) == 0:
-    print('Minima add up to zero!')
+if np.nanmin(data[:,1]) < 0.:
+    print(f + ': a negative flux')
+if np.sum(np.isnan(data[:,1])) == data.shape[0]:
+    print(f + ': a NaN column')
 else:
     print('Seems OK!')
 ~~~
 {: .language-python}
 
 ~~~
-Suspicious looking maxima!
+data/03D3af.csv: A NaN column
 ~~~
 {: .output}
 
 ~~~
-data = numpy.loadtxt(fname='inflammation-03.csv', delimiter=',')
+data = numpy.loadtxt(fname='data/03D1ar.csv', delimiter=',')
 
-max_inflammation_0 = numpy.max(data, axis=0)[0]
-max_inflammation_20 = numpy.max(data, axis=0)[20]
-
-if max_inflammation_0 == 0 and max_inflammation_20 == 20:
-    print('Suspicious looking maxima!')
-elif numpy.sum(numpy.min(data, axis=0)) == 0:
-    print('Minima add up to zero!')
+if np.nanmin(data[:,1]) < 0.:
+    print(f + ': a negative flux')
+if np.sum(np.isnan(data[:,1])) == data.shape[0]:
+    print(f + ': a NaN column')
 else:
     print('Seems OK!')
 ~~~
 {: .language-python}
 
 ~~~
-Minima add up to zero!
+data/03D1ar.csv: A negative flux.
 ~~~
 {: .output}
 
@@ -378,7 +367,7 @@ freeing us from having to manually examine every plot for features we've seen be
 > {: .solution}
 {: .challenge}
 
-> ## Sorting a List Into Buckets
+> ## Sorting a List Into Buckets (DO NOT USE)
 >
 > In our `data` folder, large data sets are stored in files whose names start with
 > "inflammation-" and small data sets -- in files whose names start with "small-". We
