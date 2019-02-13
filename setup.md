@@ -7,13 +7,12 @@ root: ..
 
 ### Obtain lesson materials
 
-1. Download [python-novice-inflammation-data.zip][zipfile1]
-        and [python-novice-inflammation-code.zip][zipfile2].
+1. Download [intro_python_data.tar.gz][zipfile1].
 2. Create a folder called `swc-python` on your Desktop.
-3. Move downloaded files into this newly created folder.
-4. Unzip the files.
+3. Move downloaded file into this newly created folder.
+4. Unzip the files (gunzip file.tar.gz) and untar (tar -xvf file.tar) or all in one go (tar -zxvf file.tar.gz).
 
-You should now see two new folders called `data` and `code` in your `swc-python` directory on your
+You should now see a new folder called `data` in your `swc-python` directory on your
 Desktop.
 
 &nbsp; <!-- vertical spacer -->
@@ -33,6 +32,16 @@ pressing <kbd>Windows Logo Key</kbd>+<kbd>R</kbd>, entering `cmd`, and hitting <
 the Command Prompt, use the following command to navigate to the `data` folder:
 ~~~
 $ cd /D %userprofile%\Desktop\swc-python\data
+~~~
+{: .source}
+
+&nbsp; <!-- vertical spacer -->
+
+### Activate your Python environment
+
+~~~
+$ bash
+$ source activate astroconda
 ~~~
 {: .source}
 
@@ -87,5 +96,4 @@ $ ipython
 ~~~
 {: .source}
 
-[zipfile1]: {{ page.root }}/data/python-novice-inflammation-data.zip
-[zipfile2]: {{ page.root }}/code/python-novice-inflammation-code.zip
+[zipfile1]: {{ page.root }}https://www.dropbox.com/s/gvw6fxq2du67vaz/intro_python_data.tar.gz?dl=0
