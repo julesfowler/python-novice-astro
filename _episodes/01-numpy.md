@@ -1070,12 +1070,12 @@ the graphs will actually be squeezed together more closely.)
 > {: .solution}
 {: .challenge}
 
-> ## Moving Plots Around
+> ## Moving Plots Around (DO NOT USE)
 >
 > Modify the program to display the three plots on top of one another
 > instead of side by side.
 >
-> > ## Solution (NOT CORRECT)
+> > ## Solution
 > > ~~~
 > > import numpy
 > > import matplotlib.pyplot
@@ -1199,7 +1199,7 @@ the graphs will actually be squeezed together more closely.)
 > {: .solution}
 {: .challenge}
 
-> ## Change In Inflammation (NOT CORRECT)
+> ## Change In Inflammation (DO NOT USE)
 >
 > This patient data is _longitudinal_ in the sense that each row represents a
 > series of observations relating to one individual.  This means that
