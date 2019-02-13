@@ -203,7 +203,7 @@ specialized tools built up from these basic units live in
 that can be called upon when needed.
 
 ## Loading data into Python
-In order to load our inflammation data, we need to access
+In order to load our supernova data, we need to access
 ([import]({{ page.root }}/reference/#import) in Python terminology) a library called
 [NumPy](http://docs.scipy.org/doc/numpy/ "NumPy Documentation").  In general you should use this
 library if you want to do fancy things with numbers, especially if you have matrices or arrays.  We
@@ -374,7 +374,7 @@ they have the same part-and-whole relationship.
 
 If we want to get a single number from the array, we must provide an
 [index]({{ page.root }}/reference/#index) in square brackets after the variable name, just as we
-do in math when referring to an element of a matrix.  Our inflammation data has two dimensions, so
+do in math when referring to an element of a matrix.  Our supernova data has two dimensions, so
 we will need to use two indices to refer to one specific value:
 
 ~~~
@@ -558,8 +558,8 @@ tripledata:
 {: .output}
 
 Often, we want to do more than add, subtract, multiply, and divide array elements.  NumPy knows how
-to do more complex operations, too.  If we want to find the average inflammation for all patients on
-all days, for example, we can ask NumPy to compute `data`'s mean value:
+to do more complex operations, too.  If we want to find the average for the g band on, for example, 
+we can ask NumPy to compute `data`'s mean value:
 
 ~~~
 print(numpy.mean(data[:,1])))
@@ -763,7 +763,7 @@ matplotlib.pyplot.show()
 ![Heatmap of the Data](../fig/fig_03D1ar.png)
 
 Blue pixels in this heat map represent low values, while yellow pixels represent high values.  As we
-can see, inflammation rises and falls over a 40-day period.
+can see, flux rises and falls over a length of the observation period.
 
 > ## Some IPython Magic
 >
@@ -792,7 +792,7 @@ matplotlib.pyplot.show()
 ~~~
 {: .language-python}
 
-![Average Inflammation Over Time](../fig/mean_03D1ar.png)
+![Average Flux Over Time](../fig/mean_03D1ar.png)
 
 Here, we have put the average flux per day in the variable `ave_flux` and the Modified 
 Julian Date in the variable 'mjd'. Then we
