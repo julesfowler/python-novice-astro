@@ -28,14 +28,13 @@ while `?` matches any one character.
 We can use this to get the names of all the CSV files in the current directory:
 
 ~~~
-print(glob.glob('inflammation*.csv'))
+print(glob.glob('data/*.csv'))
 ~~~
 {: .language-python}
 
 ~~~
-['inflammation-05.csv', 'inflammation-11.csv', 'inflammation-12.csv', 'inflammation-08.csv',
-'inflammation-03.csv', 'inflammation-06.csv', 'inflammation-09.csv', 'inflammation-07.csv',
-'inflammation-10.csv', 'inflammation-02.csv', 'inflammation-04.csv', 'inflammation-01.csv']
+['data/03D1a1.csv', 'data/03D1ar.csv', 'data/03D1au.csv', 'data/03D1aw.csv', 'data/03D1ax.csv', 'data/03D1bk.csv', 'data/03D1bm.csv', 'data/03D1bp.csv', 'data/03D1cm.csv', 'data/03D1co.csv', 'data/03D1dj.csv', 'data/03D1dt.csv', 'data/03D1ew.csv', 'data/03D1fc.csv', 'data/03D1fq.csv', 'data/03D1gt.csv', 'data/03D3af.csv',...
+'data/06D4cl.csv', 'data/06D4co.csv', 'data/06D4cq.csv', 'data/06D4dh.csv']
 ~~~
 {: .output}
 
@@ -44,61 +43,80 @@ As these examples show,
 This means we can loop over it
 to do something with each filename in turn.
 In our case,
-the "something" we want to do is generate a set of plots for each file in our inflammation dataset.
+the "something" we want to do is generate a set of plots for each file in our supernova dataset.
 If we want to start by analyzing just the first three files in alphabetical order, we can use the
 `sorted` built-in function to generate a new sorted list from the `glob.glob` output:
 
 ~~~
 import numpy
 import matplotlib.pyplot
+import glob
 
-filenames = sorted(glob.glob('inflammation*.csv'))
+filenames = sorted(glob.glob('data/*.csv'))
 filenames = filenames[0:3]
 for f in filenames:
     print(f)
 
-    data = numpy.loadtxt(fname=f, delimiter=',')
+    data = numpy.loadtxt(fname=f, delimiter=',', skiprows=1)
 
-    fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
+    fig = matplotlib.pyplot.figure(figsize=(15.0, 4.0))
+    
+    axes1 = fig.add_subplot(1, 4, 1)
+    axes2 = fig.add_subplot(1, 4, 2)
+    axes3 = fig.add_subplot(1, 4, 3)
+    axes4 = fig.add_subplot(1, 4, 4)
+    
+    y_min = numpy.nanmin(data[:,[1,3,5,7]])
+    y_max = numpy.nanmax(data[:,[1,3,5,7]])
+    
+    mjd = data[:,0]
 
-    axes1 = fig.add_subplot(1, 3, 1)
-    axes2 = fig.add_subplot(1, 3, 2)
-    axes3 = fig.add_subplot(1, 3, 3)
+    axes1.set_xlabel('MJD')
+    axes1.set_ylabel('g')
+    axes1.set_ylim([y_min, y_max])
+    axes1.plot(mjd,data[:,1],'o', color='blue')
 
-    axes1.set_ylabel('average')
-    axes1.plot(numpy.mean(data, axis=0))
+    axes2.set_xlabel('MJD')
+    axes2.set_ylabel('r')
+    axes2.set_ylim([y_min, y_max])
+    axes2.plot(mjd,data[:,3],'o', color='green')
 
-    axes2.set_ylabel('max')
-    axes2.plot(numpy.max(data, axis=0))
+    axes3.set_xlabel('MJD')
+    axes3.set_ylabel('i')
+    axes3.set_ylim([y_min, y_max])
+    axes3.plot(mjd,data[:,5],'o', color='yellow')
 
-    axes3.set_ylabel('min')
-    axes3.plot(numpy.min(data, axis=0))
+    axes4.set_xlabel('MJD')
+    axes4.set_ylabel('z')
+    axes4.set_ylim([y_min, y_max])
+    axes4.plot(mjd, data[:,7],'o', color='red')
 
-    fig.tight_layout()
-    matplotlib.pyplot.show()
+    #fig.tight_layout()
+    matplotlib.pyplot.show(block=False)
+    matplotlib.pyplot.savefig(f.replace('.csv','.png'))
 ~~~
 {: .language-python}
 
 ~~~
-inflammation-01.csv
+data/03D1a1.csv
 ~~~
 {: .output}
 
-![Analysis of inflammation-01.csv](../fig/03-loop_49_1.png)
+![Analysis of data/03D1a1.csv](../fig/03D1a1.png)
 
 ~~~
-inflammation-02.csv
-~~~
-{: .output}
-
-![Analysis of inflammation-02.csv](../fig/03-loop_49_3.png)
-
-~~~
-inflammation-03.csv
+data/03D1ar.csv
 ~~~
 {: .output}
 
-![Analysis of inflammation-03.csv](../fig/03-loop_49_5.png)
+![Analysis of data/03D1ar.csv](../fig/03D1ar.png)
+
+~~~
+data/03D1au.csv
+~~~
+{: .output}
+
+![Analysis of data/03D1au.csv](../fig/03D1au.png)
 
 Sure enough,
 the maxima of the first two data sets show exactly the same ramp as the first,
@@ -106,7 +124,7 @@ and their minima show the same staircase structure;
 a different situation has been revealed in the third dataset,
 where the maxima are a bit less regular, but the minima are consistently zero.
 
-> ## Plotting Differences
+> ## Plotting Differences (DO NOT USE)
 >
 > Plot the difference between the average of the first dataset
 > and the average of the second dataset,
@@ -135,7 +153,7 @@ where the maxima are a bit less regular, but the minima are consistently zero.
 > {: .solution}
 {: .challenge}
 
-> ## Generate Composite Statistics
+> ## Generate Composite Statistics (DO NOT USE)
 >
 > Use each of the files once to generate a dataset containing values averaged over all patients:
 >
