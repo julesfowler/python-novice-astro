@@ -197,13 +197,13 @@ we noticed:
 ~~~
 def detect_problems(filename):
 
-    data = numpy.loadtxt(fname=f, delimiter=',', skiprows=1)
+    data = numpy.loadtxt(fname=filename, delimiter=',', skiprows=1)
 
     for i in [1,3,5,7]:
         if np.nanmin(data[:,i]) < 0.:
-            print(f + ': A negative flux.')
+            print(filename + ': A negative flux.')
         elif np.sum(np.isnan(data[:,i])) == data.shape[0]:
-            print(f + ': A NaN column')
+            print(filename + ': A NaN column')
         else:
             print('Seems OK!')
 ~~~
