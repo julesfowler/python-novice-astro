@@ -9,12 +9,13 @@ root: ..
 
 You will need terminal access for this process. Contact the workshop instructor if you have no experience working in a terminal. 
 
-0. Test if you already have Anaconda or Miniconda installed. In your terminal type the folloing commands:
+Test if you already have Anaconda or Miniconda installed. In your terminal type the folloing commands:
 ~~~
 $ bash
 $ which conda
 ~~~
 {: .source}
+
 If this returns nothing, please proceed to the next step. If it produces a path such as /Users/yourname/anaconda/bin/conda (yours may be different), skip the next step and go straight to step 2.
 
 1. Install Miniconda Python 3 by following the directions [here](https://astroconda.readthedocs.io/en/latest/getting_started.html#getting-started-jump). A video tutorial is available [here](http://swcarpentry.github.io/python-novice-gapminder/setup/). You do not need root access. We recommend Miniconda rather than Anaconda because it is a faster and more light-weight installation.
