@@ -5,6 +5,44 @@ permalink: /setup/
 root: ..
 ---
 
+### Install Python:
+
+0. Test if you already have Anaconda or Miniconda installed. In your terminal type the folloing commands:
+
+~~~
+$ bash
+$ which conda
+~~~
+{: .source}
+
+If this returns nothing, please proceed to the next step. If it produces a path such as /Users/yourname/anaconda/bin/conda (yours may be different), skip the next step and go straight to step 2.
+
+1. Install Miniconda Python 3 by following the directions here:
+
+https://astroconda.readthedocs.io/en/latest/getting_started.html#getting-started-jump
+
+(Video tutorial here: http://swcarpentry.github.io/python-novice-gapminder/setup/)
+
+You do not need root access. We recommend Miniconda rather than Anaconda because it is a faster and more light-weight installation.
+
+2. Install Astroconda by following the instructions here - the first 4 yellow boxes on this page:
+https://astroconda.readthedocs.io/en/latest/installation.html#standard-install
+
+You will need terminal access for this. Ping the workshop instructor if you don't know how to do that. If you have already have an astroconda environment that prefer not to touch, then name the new one something different.
+
+3. Clean up your workspace:
+Check your default profile files (.cshrc, .bashrc, .bash_profile) and comment any entries that define or add to $PYTHONPATH. Start a fresh Terminal window and type echo $PYTHONPATH - you should not see a long jumble of paths to unknown corners of your hard drive. 
+
+If you don't know what this means, skip to the next one.
+
+4. Get yourself a nicer terminal. 
+
+iTerm is really nice for OSX: https://www.iterm2.com/
+
+For Windows, here is Git Bash: https://gitforwindows.org/
+
+5. For this class we can use Nano, Emacs or VIM, but if you want a nicer text editor, download Sublime Text, Atom, BBEdit or TextWrangler. We will not cover IDEs such as PyCharm or Spyder. 
+
 ### Obtain lesson materials
 
 1. Download [intro_python_data.tar.gz](https://www.dropbox.com/s/gvw6fxq2du67vaz/intro_python_data.tar.gz?dl=1).
