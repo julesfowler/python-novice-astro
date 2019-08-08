@@ -30,16 +30,9 @@ https://astroconda.readthedocs.io/en/latest/installation.html#standard-install
 
 You will need terminal access for this. Ping the workshop instructor if you don't know how to do that. If you have already have an astroconda environment that prefer not to touch, then name the new one something different.
 
-3. Clean up your workspace:
-Check your default profile files (.cshrc, .bashrc, .bash_profile) and comment any entries that define or add to $PYTHONPATH. Start a fresh Terminal window and type echo $PYTHONPATH - you should not see a long jumble of paths to unknown corners of your hard drive. 
+3. Clean up your workspace. Check your default profile files (.cshrc, .bashrc, .bash_profile) and comment any entries that define or add to $PYTHONPATH. Start a fresh Terminal window and type echo $PYTHONPATH - you should not see a long jumble of paths to unknown corners of your hard drive. If you don't know what this means, skip to the next one.
 
-If you don't know what this means, skip to the next one.
-
-4. Get yourself a nicer terminal. 
-
-iTerm is really nice for OSX: https://www.iterm2.com/
-
-For Windows, here is Git Bash: https://gitforwindows.org/
+4. Get yourself a nicer terminal. [iTerm](https://www.iterm2.com/) is really nice for OSX. For Windows, here is [Git Bash](https://gitforwindows.org/).
 
 5. For this class we can use Nano, Emacs or VIM, but if you want a nicer text editor, download Sublime Text, Atom, BBEdit or TextWrangler. We will not cover IDEs such as PyCharm or Spyder. 
 
