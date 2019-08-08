@@ -66,7 +66,22 @@ $ winpty python
 
 &nbsp; <!-- vertical spacer -->
 
-### Option 2: Start Jupyter notebook
+
+### Option 2: Start IPython interpreter
+
+IPython is an alternative solution situated somewhere in between the plain vanilla Python
+interpreter and Jupyter notebooks.  It provides an interactive command-line based interpreter with
+various convenience features and commands.  You should have IPython on your system if you installed
+[Anaconda Distribution](http://carpentries.github.io/workshop-template/#python).
+
+To start using IPython, execute:
+~~~
+$ ipython
+~~~
+
+&nbsp; <!-- vertical spacer -->
+
+### Option 3: Start Jupyter notebook
 
 Jupyter notebooks provide a browser-based interface for working with Python.  If you would like to
 use a notebook during the lesson, make sure to install [Anaconda
@@ -82,20 +97,6 @@ Then create a new notebook by clicking "New" button on the right and selecting "
 drop-down menu:
 
 ![](../fig/new-notebook.png)
-
-&nbsp; <!-- vertical spacer -->
-
-### Option 3: Start IPython interpreter
-
-IPython is an alternative solution situated somewhere in between the plain vanilla Python
-interpreter and Jupyter notebooks.  It provides an interactive command-line based interpreter with
-various convenience features and commands.  You should have IPython on your system if you installed
-[Anaconda Distribution](http://carpentries.github.io/workshop-template/#python).
-
-To start using IPython, execute:
-~~~
-$ ipython
-~~~
 {: .source}
 
 [zipfile1]: {{ page.root }}https://www.dropbox.com/s/gvw6fxq2du67vaz/intro_python_data.tar.gz?dl=0
