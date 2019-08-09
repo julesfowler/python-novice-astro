@@ -815,8 +815,13 @@ numpy.zeros(5, dtype=bool)
 
 Similar to `numpy.zero` are `numpy.one` which creates an array of ones, `numpy.fill` which creates an array filled with a specified value and `numpy.empy` which creats an "empty" array. On one hand `numpy.empty` does not set the array values to zero, and may therefore be marginally faster. On the other hand, it requires the user to manually set all the values in the array, and should be used with caution.
 
-A final ``numpy`` trick is to check if a value is NaN
-np.isnan
+A final ``numpy`` trick is to check if a value is NaN or to find where all the NaNs are withing an array:
+~~~
+np.isnan(data[:,1])
+~~~
+{: .output}
+
+The output is again a Boolean array.
 
 
 > ## Scientists Dislike Typing
