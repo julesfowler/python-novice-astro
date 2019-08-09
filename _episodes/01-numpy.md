@@ -746,6 +746,79 @@ print(numpy.nanmean(data, axis=1))
 which is the average flux for each day of observations.
 
 
+## Other Fun Numpy Features
+
+A common task in working with arrays is to subselect all elements that satisfy a condition . In `IDL` this task is 
+carried out by the `where` function which returns the indexes of the array elements that satisfy the condition which the user can then iterrate over. While
+there is a [`numpy.where`](https://docs.scipy.org/doc/numpy/reference/generated/numpy.where.html) task, Python allows
+for a more elegant execution of this workflow. Python allows for a direct comparison between a numpy array and a float or integer which returns a Boolean array.
+
+~~~
+index = data[:,1] > 100
+print(index)
+~~~
+{: .language-python}
+
+~~~
+[False False False  True False  True False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False
+ False False False False False False False False False False False False]
+~~~
+{: .output}
+
+In arithmetic operations with Boolean arrays, the values `True` and `False` are interpreted as `1` and `0`respectively. One easy way to find out how many items satisfied the condition (i.e. how many `True` values there are in the `index` array) is to sum the index array:
+
+~~~
+numpy.sum(index)
+~~~
+{: .language-python}
+
+~~~
+2
+~~~
+{: .output}
+
+This Boolean array can then be used as an index:
+
+~~~
+print(data[:,1][index])
+print(data[:,1][index]+200.)
+print(data[:,0][index])
+~~~
+{: .language-python}
+
+~~~
+[142.8  114.73]
+[242.8  214.73]
+[52900.5 52904.6]
+~~~
+{: .output}
+
+Numpy allow for the creating of empty arrays of several different types. For example to create an array of zeros:
+~~~
+numpy.zeros(5)
+~~~
+{: .language-python}
+
+~~~
+array([0., 0., 0., 0., 0.])
+~~~
+{: .output}
+By default the data type is `float`. Try the following two examples:
+
+~~~
+numpy.zeros(5, dtype=int)
+numpy.zeros(5, dtype=bool)
+~~~
+{: .language-python}
+
+Similar to `numpy.zero` are `numpy.one` which creates an array of ones, `numpy.fill` which creates an array filled with a specified value and `numpy.empy` which creats an "empty" array. On one hand `numpy.empty` does not set the array values to zero, and may therefore be marginally faster. On the other hand, it requires the user to manually set all the values in the array, and should be used with caution.
+
+A final ``numpy`` trick is to check if a value is NaN
+np.isnan
+
+
 > ## Scientists Dislike Typing
 >
 > We will always use the syntax `import numpy` to import NumPy.
