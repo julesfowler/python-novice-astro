@@ -43,7 +43,7 @@ As these examples show,
 This means we can loop over it
 to do something with each filename in turn.
 In our case,
-the "something" we want to do is generate a set of plots for each file in our supernova dataset.
+the "something" we want to do is deternine the minimum and maximum brightness for each supernova dataset.
 If we want to start by analyzing just the first three files in alphabetical order, we can use the
 `sorted` built-in function to generate a new sorted list from the `glob.glob` output:
 
@@ -59,64 +59,24 @@ for f in filenames:
 
     data = numpy.loadtxt(fname=f, delimiter=',', skiprows=1)
 
-    fig = matplotlib.pyplot.figure(figsize=(15.0, 4.0))
-    
-    axes1 = fig.add_subplot(1, 4, 1)
-    axes2 = fig.add_subplot(1, 4, 2)
-    axes3 = fig.add_subplot(1, 4, 3)
-    axes4 = fig.add_subplot(1, 4, 4)
-    
     y_min = numpy.nanmin(data[:,[1,3,5,7]])
     y_max = numpy.nanmax(data[:,[1,3,5,7]])
     
-    mjd = data[:,0]
+    print(f, 'Min brightness: ', y_min, 'Max brightness: ', y_max)
 
-    axes1.set_xlabel('MJD')
-    axes1.set_ylabel('g')
-    axes1.set_ylim([y_min, y_max])
-    axes1.plot(mjd,data[:,1],'o', color='blue')
-
-    axes2.set_xlabel('MJD')
-    axes2.set_ylabel('r')
-    axes2.set_ylim([y_min, y_max])
-    axes2.plot(mjd,data[:,3],'o', color='green')
-
-    axes3.set_xlabel('MJD')
-    axes3.set_ylabel('i')
-    axes3.set_ylim([y_min, y_max])
-    axes3.plot(mjd,data[:,5],'o', color='yellow')
-
-    axes4.set_xlabel('MJD')
-    axes4.set_ylabel('z')
-    axes4.set_ylim([y_min, y_max])
-    axes4.plot(mjd, data[:,7],'o', color='red')
-
-    #fig.tight_layout()
-    matplotlib.pyplot.show(block=False)
-    matplotlib.pyplot.savefig(f.replace('.csv','.png'))
 ~~~
 {: .language-python}
 
 ~~~
 data/03D1ar.csv
-~~~
-{: .output}
-
-![Analysis of data/03D1ar.csv](../fig/03D1ar.png)
-
-~~~
+data/03D1ar.csv Min brightness:  -117.01 Max brightness:  694.11
 data/03D1au.csv
-~~~
-{: .output}
-
-![Analysis of data/03D1au.csv](../fig/03D1au.png)
-
-~~~
+data/03D1au.csv Min brightness:  -4.7982 Max brightness:  1510.4
 data/03D1aw.csv
+data/03D1aw.csv Min brightness:  -16.833 Max brightness:  956.81
 ~~~
 {: .output}
 
-![Analysis of data/03D1aw.csv](../fig/03D1aw.png)
 
 > ## Plotting Differences (DO NOT USE)
 >
