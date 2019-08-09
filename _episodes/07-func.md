@@ -228,124 +228,19 @@ we can more easily read and understand what is happening in the `for` loop.
 Even better, if at some later date we want to use either of those pieces of code again,
 we can do so in a single line.
 
-## Testing and Documenting
+## Documenting
 
 Once we start putting things in functions so that we can re-use them,
-we need to start testing that those functions are working correctly.
-To see how to do this,
-let's write a function to offset a dataset so that it's mean value
-shifts to a user-defined value:
-
-~~~
-def offset_mean(data, target_mean_value):
-    return (data - numpy.nanmean(data)) + target_mean_value
-~~~
-{: .language-python}
-
-We could test this on our actual data,
-but since we don't know what the values ought to be,
-it will be hard to tell if the result was correct.
-Instead,
-let's use NumPy to create a matrix of 0's
-and then offset its values to have a mean value of 3:
-
-~~~
-z = numpy.zeros((2,2))
-print(offset_mean(z, 3))
-~~~
-{: .language-python}
-
-~~~
-[[ 3.  3.]
- [ 3.  3.]]
-~~~
-{: .output}
-
-That looks right,
-so let's try `offset_mean` on our real data:
-
-~~~
-data = numpy.loadtxt(fname='data/03D1ar.csv', delimiter=',',skiprows=1)
-data=data[:,1:]
-print(offset_mean(data, 0))
-~~~
-{: .language-python}
-
-~~~
-[[-6.14875 -6.14875 -5.14875 ..., -3.14875 -6.14875 -6.14875]
- [-6.14875 -5.14875 -4.14875 ..., -5.14875 -6.14875 -5.14875]
- [-6.14875 -5.14875 -5.14875 ..., -4.14875 -5.14875 -5.14875]
- ...,
- [-6.14875 -5.14875 -5.14875 ..., -5.14875 -5.14875 -5.14875]
- [-6.14875 -6.14875 -6.14875 ..., -6.14875 -4.14875 -6.14875]
- [-6.14875 -6.14875 -5.14875 ..., -5.14875 -5.14875 -6.14875]]
-~~~
-{: .output}
-
-It's hard to tell from the default output whether the result is correct,
-but there are a few simple tests that will reassure us:
-
-~~~
-print('original min, mean, and max are:', numpy.nanmin(data), numpy.nanmean(data), numpy.nanmax(data))
-offset_data = offset_mean(data, 0)
-print('min, mean, and max of offset data are:',
-      numpy.nanmin(offset_data),
-      numpy.nanmean(offset_data),
-      numpy.nanmax(offset_data))
-~~~
-{: .language-python}
-
-~~~
-original min, mean, and max are: -117.01 14027.293405604396 53026.3
-min, mean, and max of offset data are: -14144.303405604396 -2.3986673453351954e-13 38999.00659439561
-~~~
-{: .output}
-
-That seems almost right.
-The mean of the offset data isn't quite zero --- we'll explore why not in the challenges --- but
-it's pretty close.
-We can even go further and check that the standard deviation hasn't changed:
-
-~~~
-print('std dev before and after:', numpy.nanstd(data), numpy.nanstd(offset_data))
-~~~
-{: .language-python}
-
-~~~
-std dev before and after: 23298.068324802825 23298.068324802825
-~~~
-{: .output}
-
-Those values look the same,
-but we probably wouldn't notice if they were different in the sixth decimal place.
-Let's do this instead:
-
-~~~
-print('difference in standard deviations before and after:',
-      numpy.nanstd(data) - numpy.nanstd(offset_data))
-~~~
-{: .language-python}
-
-~~~
-difference in standard deviations before and after: 0.0
-~~~
-{: .output}
-
-Again,
-the difference is very small.
-but it seems unlikely enough that we should probably get back to doing our analysis.
-We have one more task first, though:
-we should write some [documentation]({{ page.root }}/reference/#documentation) for our function
-to remind ourselves later what it's for and how to use it.
+it is useful to add some documentation so that we remember what the function does.
 
 The usual way to put documentation in software is
 to add [comments]({{ page.root }}/reference/#comment) like this:
 
 ~~~
-# offset_mean(data, target_mean_value):
-# return a new array containing the original data with its mean offset to match the desired value.
-def offset_mean(data, target_mean_value):
-    return (data - numpy.mean(data)) + target_mean_value
+#fahr_to_celsius(temp):
+#converts fahrenheit degrees to celsius degrees
+def fahr_to_celsius(temp):
+    return ((temp - 32) * (5/9))
 ~~~
 {: .language-python}
 
@@ -354,10 +249,9 @@ If the first thing in a function is a string that isn't assigned to a variable,
 that string is attached to the function as its documentation:
 
 ~~~
-def offset_mean(data, target_mean_value):
-    '''Return a new array containing the original data
-       with its mean offset to match the desired value.'''
-    return (data - numpy.mean(data)) + target_mean_value
+def fahr_to_celsius(temp):
+    """Converts fahrenheit degrees to celsius degrees."""
+    return ((temp - 32) * (5/9))
 ~~~
 {: .language-python}
 
@@ -365,40 +259,45 @@ This is better because we can now ask Python's built-in help system to show us
 the documentation for the function:
 
 ~~~
-help(offset_mean)
+help(fahr_to_celsius)
 ~~~
 {: .language-python}
 
 ~~~
-Help on function offset_mean in module __main__:
+Help on function fahr_to_celsius in module __main__:
 
-offset_mean(data, target_mean_value)
-    Return a new array containing the original data with its mean offset to match the desired value.
+fahr_to_celsius(temp)
+   Converts fahrenheit degrees to celsius degrees.
 ~~~
 {: .output}
 
 A string like this is called a [docstring]({{ page.root }}/reference/#docstring).
 We don't need to use triple quotes when we write one,
 but if we do,
-we can break the string across multiple lines:
+we can break the string across multiple lines.
 
 ~~~
-def offset_mean(data, target_mean_value):
-    '''Return a new array containing the original data
-       with its mean offset to match the desired value.
-    Example: offset_mean([1, 2, 3], 0) => [-1, 0, 1]'''
-    return (data - numpy.mean(data)) + target_mean_value
+def fahr_to_celsius(temp):
+    """
+    Converts fahrenheit degrees to celsius degrees.
+    Example:
+    >fahr_to_celsius(125)
+    37.77777777777778
+    """
+    return ((temp - 32) * (5/9))
 
-help(offset_mean)
+help(fahr_to_celsius)
 ~~~
 {: .language-python}
 
 ~~~
-Help on function center in module __main__:
+Help on function fahr_to_celsius in module __main__:
 
-offset_mean(data, target_mean_value)
-    Return a new array containing the original data with its mean offset to match the desired value.
-    Example: offset_mean([1, 2, 3], 0) => [-1, 0, 1]
+fahr_to_celsius(temp)
+    Converts fahrenheit degrees to celsius degrees.
+    Example:
+    >fahr_to_celsius(125)
+    37.77777777777778
 ~~~
 {: .output}
 
@@ -448,106 +347,6 @@ _commastring
 SyntaxError: unexpected EOF while parsing
 ~~~
 {: .error}
-
-To understand what's going on,
-and make our own functions easier to use,
-let's re-define our `offset_mean` function like this:
-
-~~~
-def offset_mean(data, target_mean_value=0.0):
-    '''Return a new array containing the original data with its mean offset to match the
-       desired value (0 by default).
-    Example: offset_mean([1, 2, 3], 0) => [-1, 0, 1]'''
-    return (data - numpy.mean(data)) + target_mean_value
-~~~
-{: .language-python}
-
-The key change is that the second parameter is now written `target_mean_value=0.0`
-instead of just `target_mean_value`.
-If we call the function with two arguments,
-it works as it did before:
-
-~~~
-test_data = numpy.zeros((2, 2))
-print(offset_mean(test_data, 3))
-~~~
-{: .language-python}
-
-~~~
-[[ 3.  3.]
- [ 3.  3.]]
-~~~
-{: .output}
-
-But we can also now call it with just one parameter,
-in which case `target_mean_value` is automatically assigned
-the [default value]({{ page.root }}/reference/#default-value) of 0.0:
-
-~~~
-more_data = 5 + numpy.zeros((2, 2))
-print('data before mean offset:')
-print(more_data)
-print('offset data:')
-print(offset_mean(more_data))
-~~~
-{: .language-python}
-
-~~~
-data before mean offset:
-[[ 5.  5.]
- [ 5.  5.]]
-offset data:
-[[ 0.  0.]
- [ 0.  0.]]
-~~~
-{: .output}
-
-This is handy:
-if we usually want a function to work one way,
-but occasionally need it to do something else,
-we can allow people to pass a parameter when they need to
-but provide a default to make the normal case easier.
-The example below shows how Python matches values to parameters:
-
-~~~
-def display(a=1, b=2, c=3):
-    print('a:', a, 'b:', b, 'c:', c)
-
-print('no parameters:')
-display()
-print('one parameter:')
-display(55)
-print('two parameters:')
-display(55, 66)
-~~~
-{: .language-python}
-
-~~~
-no parameters:
-a: 1 b: 2 c: 3
-one parameter:
-a: 55 b: 2 c: 3
-two parameters:
-a: 55 b: 66 c: 3
-~~~
-{: .output}
-
-As this example shows,
-parameters are matched up from left to right,
-and any that haven't been given a value explicitly get their default value.
-We can override this behavior by naming the value as we pass it in:
-
-~~~
-print('only setting the value of c')
-display(c=77)
-~~~
-{: .language-python}
-
-~~~
-only setting the value of c
-a: 1 b: 2 c: 77
-~~~
-{: .output}
 
 With that in hand,
 let's look at the help for `numpy.loadtxt`:
