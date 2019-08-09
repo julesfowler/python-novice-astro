@@ -68,34 +68,6 @@ This is a bad approach for three reasons:
     the other hand, will cause an error because it will be trying to display part of the
     string that don't exist.
 
-~~~
-word = 'tin'
-print(word[0])
-print(word[1])
-print(word[2])
-print(word[3])
-~~~
-{: .language-python}
-
-~~~
-t
-i
-n
-~~~
-{: .output}
-
-~~~
----------------------------------------------------------------------------
-IndexError                                Traceback (most recent call last)
-<ipython-input-3-7974b6cdaf14> in <module>()
-      3 print(word[1])
-      4 print(word[2])
-----> 5 print(word[3])
-
-IndexError: string index out of range
-~~~
-{: .error}
-
 Here's a better approach:
 
 ~~~
