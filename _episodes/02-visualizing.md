@@ -1,6 +1,5 @@
-
 ---
-title: Analyzing Supernova Data
+title: Visualizing Data
 teaching: 30
 exercises: 10
 questions:
