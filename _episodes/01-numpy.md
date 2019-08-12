@@ -37,7 +37,7 @@ single data values.
 
 Any Python interpreter can be used as a calculator:
 
-```language-python
+```python
   3 + 5 * 4
 ```
 
