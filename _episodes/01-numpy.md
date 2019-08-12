@@ -36,14 +36,14 @@ single data values.
 ## Variables
 
 Any Python interpreter can be used as a calculator:
-~~~
-3 + 5 * 4
-~~~
-{: .language-python}
-~~~
-23
-~~~
-{: .output}
+
+::.language-python
+
+  3 + 5 * 4
+
+::.output
+
+  23
 
 This is great but not very interesting.
 To do anything useful with data, we need to assign its value to a _variable_.
