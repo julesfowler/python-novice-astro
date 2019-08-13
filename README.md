@@ -4,7 +4,7 @@
 [![Create a Slack Account with us][create_slack_svg]][slack_heroky_invite]
 [![Slack Status][slack_channel_status]][slack_channel_url]
 
-An introduction to Python for non-programmers using inflammation data.
+An introduction to Python for non-programmers using supernova data.
 
 ## About the Lesson
 
@@ -20,7 +20,7 @@ how it is better to automate analysis using functions instead of repeating analy
 steps manually.
 
 The rendered version of the lesson is available at:
-<https://swcarpentry.github.io/python-novice-inflammation/>
+<https://ivastar.github.io/python-novice-astro/>
 
 This lesson is also available in [R][R] and [MATLAB][MATLAB].
 
