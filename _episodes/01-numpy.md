@@ -36,14 +36,14 @@ single data values.
 ## Variables
 
 Any Python interpreter can be used as a calculator:
-~~~
-3 + 5 * 4
-~~~
-{: .language-python}
-~~~
-23
-~~~
-{: .output}
+
+```python
+  3 + 5 * 4
+```
+
+```output
+  23
+```
 
 This is great but not very interesting.
 To do anything useful with data, we need to assign its value to a _variable_.
@@ -51,10 +51,9 @@ In Python, we can [assign]({{ page.root }}/reference/#assign) a value to a
 [variable]({{ page.root }}/reference/#variable), using the equals sign `=`.
 For example, to assign value `60` to a variable `weight_kg`, we would execute:
 
-~~~
+```language-python
 weight_kg = 60
-~~~
-{: .language-python}
+```
 
 From now on, whenever we use `weight_kg`, Python will substitute the value we assigned to
 it. In essence, **a variable is just a name for a value**.
@@ -79,78 +78,68 @@ Python knows various types of data. Three common ones are:
 In the example above, variable `weight_kg` has an integer value of `60`.
 To create a variable with a floating point value, we can execute:
 
-~~~
+```language-python
 weight_kg = 60.0
-~~~
-{: .language-python}
+```
 
 And to create a string we simply have to add single or double quotes around some text, for example:
 
-~~~
+```language-python
 weight_kg_text = 'weight in kilograms:'
-~~~
-{: .language-python}
+```
 
 ## Using Variables in Python
 To display the value of a variable to the screen in Python, we can use the `print` function:
 
-~~~
+```language-python
 print(weight_kg)
-~~~
-{: .language-python}
+```
 
-~~~
+```output
 60.0
-~~~
-{: .output}
+```
 
 We can display multiple things at once using only one `print` command:
 
-~~~
+```language-python
 print(weight_kg_text, weight_kg)
-~~~
-{: .language-python}
-~~~
+```
+
+```output
 weight in kilograms: 60.0
-~~~
-{: .output}
+```
 
 Moreover, we can do arithmetics with variables right inside the `print` function:
 
-~~~
+```language-python
 print('weight in pounds:', 2.2 * weight_kg)
-~~~
-{: .language-python}
+```
 
-~~~
+```output
 weight in pounds: 132.0
-~~~
-{: .output}
+```
 
 The above command, however, did not change the value of `weight_kg`:
-~~~
+```language-python
 print(weight_kg)
-~~~
-{: .language-python}
+```
 
-~~~
+```output
 60.0
-~~~
-{: .output}
+```
 
 To change the value of the `weight_kg` variable, we have to
 **assign** `weight_kg` a new value using the equals `=` sign:
 
-~~~
+```language-python
 weight_kg = 65.0
 print('weight in kilograms is now:', weight_kg)
-~~~
-{: .language-python}
+```
 
-~~~
+
+```output
 weight in kilograms is now: 65.0
-~~~
-{: .output}
+```
 
 > ## Variables as Sticky Notes
 >
